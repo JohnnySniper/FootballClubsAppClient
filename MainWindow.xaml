@@ -1,0 +1,62 @@
+﻿<Window x:Class="FootballClubs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballClubs"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="35" />
+        </Style>
+        <Style TargetType="Image">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="120" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.8*" />
+            <ColumnDefinition Width="45" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+        <ListBox Grid.Column="0" ItemsSource="{Binding Clubs}" SelectedItem="{Binding SelectedClub}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <Image Width="120" Height="80" Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding AddCommand}">+</Button>
+            <Button Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedClub}">-</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" DataContext="{Binding SelectedClub}">
+            <TextBlock Text="Выбранный элемент" HorizontalAlignment="Center" />
+            <TextBlock Text="Эмблема" />
+            <Image Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" />
+            <TextBlock Text="Название" />
+            <TextBox Text="{Binding Name}" />
+            <TextBlock Text="Путь к эмблеме" />
+            <TextBox Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" VerticalAlignment="Center" Height="36" Margin="0,199,-0.4,115.4" HorizontalAlignment="Right" Width="45">
+            <Button Command="{Binding PickImageCommand}" Margin="0,5,9.8,0" Width="Auto" Height="18" RenderTransformOrigin="0.5,1.114" Content="..." />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding SaveNewCommand}" CommandParameter="{Binding SelectedClub}">Сохранить</Button>
+            <Button Command="{Binding SaveEditedCommand}" CommandParameter="{Binding SelectedClub}">Изменить</Button>
+        </StackPanel>
+    </Grid>
+</Window>
